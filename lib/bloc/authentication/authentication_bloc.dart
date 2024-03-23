@@ -1,22 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:drawing_together/models/user.dart';
-import 'package:drawing_together/providers/authentication_provider.dart';
-import 'package:drawing_together/repository/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
+import 'package:drawing_together/providers/auth_provider.dart';
+import 'package:drawing_together/providers/firebase_auth_provider.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthProvider authProvider;
-  final AuthRepository authRepository;
+  final FirebaseAuthProvider firebaseAuthProvider;
+
+  //late User _userData;
 
   AuthenticationBloc({
     required this.authProvider,
-    required this.authRepository,
+    required this.firebaseAuthProvider,
   }) : super(AuthenticationInitial()) {
-    authProvider.onAuthStateChanged.listen((usr) {
-      if (usr is User) {
+    firebaseAuthProvider.onUserModelChanged.listen((usr) {
+      if (usr is RawUserModel) {
         add(const AuthenticationSignUpUser());
       }
     });
@@ -24,13 +25,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<AuthenticationSignUpUser>((event, emit) async {
       emit(AuthenticationLoadingState(isLoading: true));
       try {
-        assert(authProvider.user != null);
+        //_userData = await authProvider.setupUserData();
 
-        final user = await authRepository.setupUserData();
-
-        emit(AuthenticationSuccess(user));
+        //emit(AuthenticationSuccess(_userData));
       } catch (e) {
-        print(e.toString());
         emit(const AuthenticationFailure('create user failed'));
       }
       emit(AuthenticationLoadingState(isLoading: false));

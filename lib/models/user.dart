@@ -1,47 +1,56 @@
 import 'dart:convert';
 
-class UserModel {
+import 'package:flutter/material.dart';
+
+class RawUserModel {
   final String id;
   final String email;
   final String displayName;
-  UserModel({
+  RawUserModel({
     required this.id,
     required this.email,
     required this.displayName,
   });
 }
 
-class DrawUser {
+class User {
   final String id;
   final String email;
   final String displayName;
+  final String color;
   final String? lastActivity;
   final Map<String, dynamic>? content;
 
-  factory DrawUser.createNewUser(
-    UserModel usr,
+  factory User.createNewUser(
+    RawUserModel usr,
   ) {
-    return DrawUser(
+    return User(
       id: usr.id,
       email: usr.email,
       displayName: usr.displayName,
+      color: () {
+        final randomColor = ([...Colors.primaries]..shuffle()).first;
+        return '#${randomColor.value.toRadixString(16).padLeft(8, '0')}';
+      }(),
       content: {},
       lastActivity: DateTime.now().toString(),
     );
   }
 
-  DrawUser({
+  User({
     required this.id,
     required this.email,
     required this.displayName,
+    required this.color,
     this.lastActivity,
     this.content = const {},
   });
 
-  DrawUser.fromJson(Map<String, dynamic> json)
+  User.fromJson(Map<String, dynamic> json)
       : id = json['id'] as String,
         email = json['email'] as String,
         lastActivity = json['lastActivity'] as String,
+        color = json['color'] as String,
         content = jsonDecode(json['content'] ?? '{}') as Map<String, dynamic>,
         displayName = json['displayName'] as String;
 
@@ -49,6 +58,7 @@ class DrawUser {
         'id': id,
         'email': email,
         'displayName': displayName,
+        'color': color,
         'lastActivity': lastActivity,
         'content': content,
       };

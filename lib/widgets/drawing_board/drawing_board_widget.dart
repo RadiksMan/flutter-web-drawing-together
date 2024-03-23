@@ -1,10 +1,8 @@
-import 'dart:convert';
-
+import 'package:drawing_together/providers/auth_provider.dart';
 import 'package:drawing_together/widgets/drawing_board/drawing_tools_button_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
-import 'package:flutter_drawing_board/paint_contents.dart';
+import 'package:provider/provider.dart';
 
 class DrawingBoardComponent extends StatefulWidget {
   const DrawingBoardComponent({super.key});
@@ -20,6 +18,23 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
   final DrawingController _drawingController = DrawingController();
 
   final TransformationController _transformationController = TransformationController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    Provider.of<AuthProvider>(context).onUserChanged.listen((usr) {
+      print(usr?.color);
+      final test = Color(int.parse('${usr?.color}'.replaceFirst('#', '0xFF')));
+      print(test);
+      _drawingController.setStyle(color: test);
+    });
+  }
 
   @override
   void dispose() {

@@ -1,20 +1,26 @@
-import 'package:drawing_together/providers/authentication_provider.dart';
+import 'package:drawing_together/models/user.dart';
+import 'package:drawing_together/providers/firebase_auth_provider.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class DatabaseProvider {
-  DatabaseProvider({required this.authProvider}) : _database = FirebaseDatabase.instance;
+  DatabaseProvider({required this.firebaseAuthProvider}) : _database = FirebaseDatabase.instance {
+    firebaseAuthProvider.onUserModelChanged.listen((userModel) {
+      _user = userModel;
+    });
+  }
 
-  final AuthProvider authProvider;
+  final FirebaseAuthProvider firebaseAuthProvider;
   final FirebaseDatabase _database;
+  RawUserModel? _user;
 
   FirebaseDatabase get database => _database;
 
   // get ref db for logged user
   DatabaseReference get ref {
-    if (authProvider.user == null) {
+    if (_user == null) {
       throw Exception('No logged user presented.');
     }
 
-    return _database.ref().child('users/${authProvider.user!.id}');
+    return _database.ref().child('users/${_user!.id}');
   }
 }
