@@ -2,7 +2,6 @@ import 'package:drawing_together/widgets/drawing_board/drawing_board_widget.dart
 import 'package:drawing_together/widgets/main_drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'bloc/authentication/authentication_bloc.dart';
@@ -39,7 +38,7 @@ class HomeScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              return DrawingBoardComponent();
+              return const DrawingBoardComponent();
             },
           ),
         ],

@@ -7,13 +7,10 @@ sealed class AuthenticationEvent {
 }
 
 class AuthenticationSignUpUser extends AuthenticationEvent {
-  final String email;
-  final String password;
-
-  const AuthenticationSignUpUser(this.email, this.password);
+  const AuthenticationSignUpUser();
 
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [];
 }
 
 class AuthenticationSignOut extends AuthenticationEvent {}

@@ -15,7 +15,7 @@ final class AuthenticationLoadingState extends AuthenticationState {
 }
 
 final class AuthenticationSuccess extends AuthenticationState {
-  final UserModel user;
+  final DrawUser user;
 
   const AuthenticationSuccess(this.user);
   @override

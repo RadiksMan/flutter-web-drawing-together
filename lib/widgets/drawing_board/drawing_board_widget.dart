@@ -33,10 +33,8 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
 
   /// Get Json content
   Future<void> _getJsonList() async {
-    final current = _drawingController.currentContent;
     final historyList = _drawingController.getHistory;
     final index = _drawingController.currentIndex;
-
     final currentContent = historyList[index - 1].toJson();
 
     print(currentContent);
@@ -66,7 +64,12 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
                 },
               ),
             ),
-            DrawingToolsButton(controller: _drawingController),
+            DrawingToolsButton(
+              controller: _drawingController,
+              onClearCallback: () => print('onClearCallback'),
+              onRedoCallback: () => print('onRedoCallback'),
+              onUndoCallback: () => print('onUndoCallback'),
+            ),
           ],
         ),
       ),

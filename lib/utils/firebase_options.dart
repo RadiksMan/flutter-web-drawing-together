@@ -48,5 +48,6 @@ class DefaultFirebaseOptions {
     projectId: 'flutter-drawing-together',
     authDomain: 'flutter-drawing-together.firebaseapp.com',
     storageBucket: 'flutter-drawing-together.appspot.com',
+    databaseURL: 'https://flutter-drawing-together-default-rtdb.europe-west1.firebasedatabase.app/',
   );
 }

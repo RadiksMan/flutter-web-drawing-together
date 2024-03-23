@@ -1,5 +1,7 @@
+import 'package:drawing_together/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/helpers.dart';
 import 'package:flutter_drawing_board/paint_contents.dart';
@@ -41,6 +43,11 @@ class _DrawingToolsButtonState extends State<DrawingToolsButton> {
                 endIndent: 4,
               ),
               _buildTools(),
+              TextButton(
+                  onPressed: () {
+                    context.read<AuthenticationBloc>().add(AuthenticationSignUpUser());
+                  },
+                  child: Text('Test'))
             ],
           ),
         ),
@@ -71,6 +78,7 @@ class _DrawingToolsButtonState extends State<DrawingToolsButton> {
         onPressed: () {
           if (widget.controller.canUndo()) {
             widget.controller.undo();
+            widget.onUndoCallback?.call();
           }
         },
       ),
@@ -79,6 +87,7 @@ class _DrawingToolsButtonState extends State<DrawingToolsButton> {
         onPressed: () {
           if (widget.controller.canRedo()) {
             widget.controller.redo();
+            widget.onRedoCallback?.call();
           }
         },
       ),
@@ -86,6 +95,7 @@ class _DrawingToolsButtonState extends State<DrawingToolsButton> {
         icon: const Icon(CupertinoIcons.trash),
         onPressed: () {
           widget.controller.clear();
+          widget.onClearCallback?.call();
         },
       ),
     ];
