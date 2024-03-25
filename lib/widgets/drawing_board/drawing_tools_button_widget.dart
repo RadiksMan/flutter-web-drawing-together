@@ -73,24 +73,24 @@ class _DrawingToolsButtonState extends State<DrawingToolsButton> {
           },
         ),
       ),
-      IconButton(
-        icon: const Icon(CupertinoIcons.arrow_turn_up_left),
-        onPressed: () {
-          if (widget.controller.canUndo()) {
-            widget.controller.undo();
-            widget.onUndoCallback?.call();
-          }
-        },
-      ),
-      IconButton(
-        icon: const Icon(CupertinoIcons.arrow_turn_up_right),
-        onPressed: () {
-          if (widget.controller.canRedo()) {
-            widget.controller.redo();
-            widget.onRedoCallback?.call();
-          }
-        },
-      ),
+      // IconButton(
+      //   icon: const Icon(CupertinoIcons.arrow_turn_up_left),
+      //   onPressed: () {
+      //     if (widget.controller.canUndo()) {
+      //       widget.controller.undo();
+      //       widget.onUndoCallback?.call();
+      //     }
+      //   },
+      // ),
+      // IconButton(
+      //   icon: const Icon(CupertinoIcons.arrow_turn_up_right),
+      //   onPressed: () {
+      //     if (widget.controller.canRedo()) {
+      //       widget.controller.redo();
+      //       widget.onRedoCallback?.call();
+      //     }
+      //   },
+      // ),
       IconButton(
         icon: const Icon(CupertinoIcons.trash),
         onPressed: () {

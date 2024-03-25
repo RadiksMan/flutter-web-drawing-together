@@ -45,6 +45,8 @@ dependencies:
   flutter_drawing_board: ^0.7.0+2
   firebase_database: ^10.4.10
   provider: ^6.1.2
+  random_color: ^1.0.6-nullsafety
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

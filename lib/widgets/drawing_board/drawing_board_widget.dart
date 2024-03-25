@@ -1,4 +1,6 @@
+import 'package:drawing_together/bloc/draw/draw_bloc.dart';
 import 'package:drawing_together/providers/auth_provider.dart';
+import 'package:drawing_together/utils/draw_repository.dart';
 import 'package:drawing_together/widgets/drawing_board/drawing_tools_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
@@ -30,9 +32,7 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
 
     Provider.of<AuthProvider>(context).onUserChanged.listen((usr) {
       print(usr?.color);
-      final test = Color(int.parse('${usr?.color}'.replaceFirst('#', '0xFF')));
-      print(test);
-      _drawingController.setStyle(color: test);
+      _drawingController.setStyle(color: usr?.color);
     });
   }
 
@@ -47,12 +47,12 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
   }
 
   /// Get Json content
-  Future<void> _getJsonList() async {
+  Future<void> _getJsonList(BuildContext context) async {
     final historyList = _drawingController.getHistory;
     final index = _drawingController.currentIndex;
     final currentContent = historyList[index - 1].toJson();
 
-    print(currentContent);
+    context.read<DrawBloc>().add(DrawFigureDrawn(figure: currentContent));
   }
 
   @override
@@ -75,13 +75,13 @@ class _DrawingBoardState extends State<DrawingBoardComponent> {
                   color: Colors.white,
                 ),
                 onPointerUp: (_) {
-                  _getJsonList();
+                  _getJsonList(context);
                 },
               ),
             ),
             DrawingToolsButton(
               controller: _drawingController,
-              onClearCallback: () => print('onClearCallback'),
+              onClearCallback: () => context.read<DrawBloc>().add(const DrawClearAllDrawns()),
               onRedoCallback: () => print('onRedoCallback'),
               onUndoCallback: () => print('onUndoCallback'),
             ),

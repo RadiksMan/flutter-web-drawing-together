@@ -1,3 +1,5 @@
+import 'package:drawing_together/bloc/draw/draw_bloc.dart';
+import 'package:drawing_together/utils/draw_repository.dart';
 import 'package:drawing_together/widgets/drawing_board/drawing_board_widget.dart';
 import 'package:drawing_together/widgets/main_drawer_widget.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,10 @@ class HomeScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              return const DrawingBoardComponent();
+              return BlocProvider(
+                create: (context) => DrawBloc(drawRepository: context.read<DrawRepository>()),
+                child: const DrawingBoardComponent(),
+              );
             },
           ),
         ],

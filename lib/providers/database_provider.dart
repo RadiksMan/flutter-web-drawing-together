@@ -16,11 +16,19 @@ class DatabaseProvider {
   FirebaseDatabase get database => _database;
 
   // get ref db for logged user
-  DatabaseReference get ref {
+  DatabaseReference get currentUser {
     if (_user == null) {
       throw Exception('No logged user presented.');
     }
 
     return _database.ref().child('users/${_user!.id}');
+  }
+
+  DatabaseReference get currentUserContent {
+    if (_user == null) {
+      throw Exception('No logged user presented.');
+    }
+
+    return _database.ref().child('content/${_user!.id}');
   }
 }

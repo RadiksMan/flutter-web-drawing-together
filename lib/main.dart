@@ -2,15 +2,14 @@ import 'package:drawing_together/bloc/authentication/authentication_bloc.dart';
 import 'package:drawing_together/models/user.dart';
 import 'package:drawing_together/providers/auth_provider.dart';
 import 'package:drawing_together/providers/database_provider.dart';
+import 'package:drawing_together/utils/draw_repository.dart';
 import 'package:drawing_together/utils/firebase_options.dart';
 import 'package:drawing_together/home_screen.dart';
 import 'package:drawing_together/signup_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:drawing_together/providers/firebase_auth_provider.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   // Firebase configuration
@@ -31,6 +30,7 @@ class _RootWidgetState extends State<RootWidget> {
   late final FirebaseAuthProvider firebaseAuthProvider;
   late final DatabaseProvider databaseProvider;
   late final AuthProvider authProvider;
+  late final DrawRepository drawRepository;
 
   @override
   void initState() {
@@ -42,6 +42,10 @@ class _RootWidgetState extends State<RootWidget> {
       firebaseAuthProvider: firebaseAuthProvider,
       databaseProvider: databaseProvider,
     );
+    drawRepository = DrawRepository(
+      dbProvider: databaseProvider,
+      authProvider: authProvider,
+    );
   }
 
   @override
@@ -51,6 +55,7 @@ class _RootWidgetState extends State<RootWidget> {
         RepositoryProvider.value(value: firebaseAuthProvider),
         RepositoryProvider.value(value: databaseProvider),
         RepositoryProvider.value(value: authProvider),
+        RepositoryProvider.value(value: drawRepository),
       ],
       child: MultiBlocProvider(
         providers: [
